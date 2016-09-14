@@ -1,0 +1,14 @@
+name: Antium
+main: es.projectalpha.antium.Antium
+version: 0.5.0
+author: cadox8
+
+commands:
+     registrar:
+       description: Registrate en el servidor
+       aliases: [register]
+     entrar:
+       description: Entra al servidor
+       aliases: [login]
+     antium:
+       description: Comando Administrativo
