@@ -1,5 +1,7 @@
 package es.projectalpha.antium.login;
 
+import java.util.ArrayList;
+
 import org.bukkit.entity.Player;
 
 import es.projectalpha.antium.files.Files;
@@ -9,7 +11,9 @@ public class Manager {
 
 	private PlayerIDs playerids = new PlayerIDs();
 
-	public void registerPlayer(Player p, String pin){
+	public ArrayList<Player> players = new ArrayList<Player>();
+
+	public void registerPlayer(Player p, String pin, String pin2){
 		if(checkPlayer(p)){
 			return;
 		}
@@ -18,8 +22,32 @@ public class Manager {
 			return;
 		}
 
+		if(!isSamePin(pin, pin2)){
+			return;
+		}
+
 		Files.data.set(p.getName() + ".pin", pin);
 		Files.data.set(p.getName() + ".id", playerids.getRandomID());
+		Files.data.set(p.getName() + ".uuid", p.getUniqueId());
+
+		Files.saveFiles();
+
+		players.remove(p);
+	}
+
+	public void loginPlayer(Player p, String pin){
+		if(!getPin(p).equalsIgnoreCase(pin)){
+			return;
+		}
+
+		players.remove(p);
+	}
+
+	public boolean isSamePin(String pin, String pin2){
+		if(pin.equalsIgnoreCase(pin2)){
+			return true;
+		}
+		return false;
 	}
 
 	public boolean checkLength(String pin){
